@@ -1,6 +1,3 @@
-from datetime import datetime
-
-
 class BankAccount:
     # bank = "KCB" - class variable
 
@@ -13,6 +10,7 @@ class BankAccount:
         self.deposits = []
         self.withdrawals = []
         self.loan_amount = 0
+        self.loan=[]
 
     def account_name(self):
         name = "{} account for {} {}".format(
@@ -22,15 +20,10 @@ class BankAccount:
 
     def deposit(self, amount):
         if amount <= 0:
-            print("The deposit is too low ")
+            print("You cannot deposit zero or negative ")
         else:
             self.balance += amount
-            date = datetime.now().strftime("%d, %B, %Y")
-            time = datetime.now().strftime("%Hr:%Min:%Sec")
-            statement = "On {} at {}, Ksh {} was deposited into {}".format(
-                date, time, amount, self.account_name()
-            )
-            self.deposits.append(statement)
+            self.deposits.append(amount)
             print(
                 "You have deposited Ksh {} to {}".format(
                     amount, self.account_name()
@@ -43,25 +36,30 @@ class BankAccount:
 
     def withdraw(self, amount):
         if amount <= 0:
-            print("You cannot withdraw an amount that's zero or less than zero")
+            print("You cannot withdraw zer or negative")
         elif amount > self.balance:
             print("You have insufficient balance ")
         else:
             self.balance -= amount
+            self.withdrawals.append(amount)
             print(
                 "You have withdrawn {} from {}".format(
                     amount, self.account_name()
                 )
             )
+    
 
     def get_balance(self):
         return "The balance for {} is {}".format(
             self.account_name(), self.balance
         )
+    def show_withdrawal_statement(self):
+        for withdrawal in self.withdrawals:
+            print(withdrawal)
 
     def get_loan(self, amount):
         if amount <= 0:
-            print("You cannot borrow an an amount less or equal to zero")
+            print("You cannot request a loan for that amount")
         else:
             self.loan_amount += amount
             self.balance += amount
@@ -72,12 +70,10 @@ class BankAccount:
             )
 
     def repay_loan(self, amount):
-        if self.loan_amount == 0:
-            print(
-                "There is no unpaid loan for {}".format(self.account_name())
-            )
-        elif amount <= 0:
-            print("You cannot repay a less than or a zero")
+        if amount <= 0:
+            print("You cannot repay with that amount")
+        elif self.loan == 0:
+            print("You don't have a loan at the moment")
         elif self.balance < amount:
             print(
                 "You do not have enough balance to pay that amount of your loan"
