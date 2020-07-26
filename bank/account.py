@@ -1,5 +1,6 @@
+from datetime import datetime
 class BankAccount:
-    # bank = "KCB" - class variable
+    
 
     def __init__(self, first_name, last_name, bank, phone_number):
         self.first_name = first_name
@@ -11,6 +12,12 @@ class BankAccount:
         self.withdrawals = []
         self.loan_amount = 0
         self.loan=[]
+    def current_time(self):
+        time=datetime.now()
+        time_formatted=time.strftime("%d/%m/Y ,%H:%M:%S")
+        return time_formatted
+
+
 
     def account_name(self):
         name = "{} account for {} {}".format(
@@ -19,32 +26,48 @@ class BankAccount:
         return name
 
     def deposit(self, amount):
+        try:
+            amount +1
+        except:TypeError:
+            print("Please enter amount in figures")
+        return
+        
         if amount <= 0:
             print("You cannot deposit zero or negative ")
         else:
             self.balance += amount
-            self.deposits.append(amount)
+            datetime=self.get current_time()
+            transaction_details={"amount":amount,"date":datetime}
+            self.deposits.append(transaction_details)
             print(
-                "You have deposited Ksh {} to {}".format(
-                    amount, self.account_name()
+                "Dear{} ,You have deposited {} to your account at {} and your new balance is {}".format(
+                    self.first_name,amount, datetime self.balance
                 )
             )
 
     def get_deposit_statement(self):
         for statement in self.deposits:
-            print(statement)
+            print("On"statement['date'],",You deposited KES",statement['amount'])
 
     def withdraw(self, amount):
+        try:
+            amount +1
+        except:TypeError:
+            print("Please enter amount in figures")
+        return
+        
         if amount <= 0:
-            print("You cannot withdraw zer or negative")
+            print("You cannot withdraw zero or negative")
         elif amount > self.balance:
             print("You have insufficient balance ")
         else:
             self.balance -= amount
-            self.withdrawals.append(amount)
+            datetime=self.get current_time()
+            transaction_details={"amount":amount,"date":datetime}
+            self.withdrawals.append(transaction_details)
             print(
-                "You have withdrawn {} from {}".format(
-                    amount, self.account_name()
+                "Dear{} ,You have withdrawn {} from your account at {} and your new balance is {}".format(
+                    self.first_name,amount, datetime self.balance
                 )
             )
     
@@ -55,9 +78,15 @@ class BankAccount:
         )
     def show_withdrawal_statement(self):
         for withdrawal in self.withdrawals:
-            print(withdrawal)
+            print(("On"withdrawal['date'],",You withdrew KES",withdrawal['amount'])
 
     def get_loan(self, amount):
+        try:
+            amount +1
+        except:TypeError:
+            print("Please enter amount in figures")
+        return
+        
         if amount <= 0:
             print("You cannot request a loan for that amount")
         else:
@@ -70,36 +99,27 @@ class BankAccount:
             )
 
     def repay_loan(self, amount):
+        try:
+            amount +1
+        except:TypeError:
+            print("Please enter amount in figures")
+        return
+        
         if amount <= 0:
             print("You cannot repay with that amount")
         elif self.loan == 0:
             print("You don't have a loan at the moment")
-        elif self.balance < amount:
+        elif amount > self.loan:
             print(
-                "You do not have enough balance to pay that amount of your loan"
-            )
-        elif self.loan_amount < amount:
-            loan = self.loan_amount
-            extra = amount - loan
-            self.balance -= self.loan_amount
-            self.loan_amount = 0
-            print(
-                "You have completed paying your loan of Ksh {}. The extra Ksh {} has been deposited in your account".format(
-                    loan, extra
-                )
+                "Your loan is {},please use an amount less or equal".format(self.loan)
             )
         else:
-            self.balance -= amount
-            self.loan_amount -= amount
-            if self.loan_amount > 0:
-                print(
-                    "You have successfully repaid Ksh {} part of your loan. Your remaining loan balance is Ksh {}".format(
-                        amount, self.loan_amount
-                    )
-                )
-            if self.loan_amount == 0:
-                print(
-                    "You have completed repayed your loan of Ksh {}".format(
-                        amount
-                    )
-                )
+            self.loan > amount
+            print("You have repaid your loan with {},your balance is {}".format(amount,self.loan))
+acc1=BankAccount("Sophia","Akoth",0722456789)
+acc2=BankAccount("Sophia","Akoth",0722456789)
+acc1.deposit(1000)
+acc2.deposit(2000)
+acc1.withdraw(100)
+acc2.withdraw(500)
+            
